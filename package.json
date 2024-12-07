@@ -5,6 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "ts-node ./src/index.ts",
+    "test": "jest",
     "build": "tsc -p .",
     "build:live": "nodemon --watch 'src/**/*.ts' --exec \"ts-node\" src/index.ts"
   },
@@ -12,9 +13,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/preset-typescript": "^7.26.0",
     "@types/node": "^22.10.1",
     "jackspeak": "^4.0.2",
+    "jest": "^29.7.0",
     "nodemon": "^3.1.7",
+    "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2"
   },
