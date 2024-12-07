@@ -1,6 +1,20 @@
 import { jack } from "jackspeak";
 
 import Day1 from "./day01/day01";
+import Day2 from "./day02/day2";
+
+type AoCFunctionMap = {
+  [year: number]: {
+    [day: number]: () => void;
+  };
+};
+
+const solutions: AoCFunctionMap = {
+  2024: {
+    1: Day1,
+    2: Day2,
+  },
+};
 
 type UnvalidatedArgs = {
   year: number | undefined;
@@ -36,18 +50,6 @@ const validateArgs = (args: UnvalidatedArgs) => {
   }
 
   return { ...args } as ValidatedArgs;
-};
-
-type AoCFunctionMap = {
-  [year: number]: {
-    [day: number]: () => void;
-  };
-};
-
-const solutions: AoCFunctionMap = {
-  2024: {
-    1: Day1,
-  },
 };
 
 const { values } = jack({})
