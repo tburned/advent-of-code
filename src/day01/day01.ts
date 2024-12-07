@@ -1,12 +1,6 @@
-import fs from "fs";
-import readline from "readline";
-import { MaxHeap, MinHeap } from "@datastructures-js/heap";
+import { MaxHeap } from "@datastructures-js/heap";
 import { readFileEagerly } from "../utils";
-
-type ListEntry = {
-  left: number;
-  right: number;
-};
+import { ListEntry } from "./types";
 
 export const readInput: (inputFile: string) => Promise<ListEntry[]> = async (
   inputFile
