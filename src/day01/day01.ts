@@ -7,10 +7,10 @@ type ListEntry = {
   right: number;
 };
 
-const readInput: (inputFile: string) => Promise<ListEntry[]> = async (
+export const readInput: (inputFile: string) => Promise<ListEntry[]> = async (
   inputFile
 ) => {
-  const fileStream = fs.createReadStream("src/day01/input.txt");
+  const fileStream = fs.createReadStream(inputFile);
 
   const lines = readline.createInterface({
     input: fileStream,
@@ -35,7 +35,7 @@ const readInput: (inputFile: string) => Promise<ListEntry[]> = async (
   return entries;
 };
 
-const sortListEntries = (entries: ListEntry[]) => {
+export const sortListEntries = (entries: ListEntry[]) => {
   const left = new MaxHeap<number>();
   const right = new MaxHeap<number>();
   entries.forEach((entry) => {
@@ -53,34 +53,37 @@ const sortListEntries = (entries: ListEntry[]) => {
   return results;
 };
 
-const calculateTotalDistance = (entries: ListEntry[]) => {
+export const calculateTotalDistance = (entries: ListEntry[]) => {
   return entries.reduce(
     (acc, entry) => Math.abs(entry.left - entry.right) + acc,
     0
   );
 };
 
-const calculateSimilarityScore = (entries: ListEntry[]) => {
-  const leftItems = new Set(entries.map((entry) => entry.left));
+export const calculateSimilarityScore = (entries: ListEntry[]) => {
+  const leftItems = new Set(entries.map(({ left }) => left));
 
+  console.log(leftItems);
   type FrequencyMap = {
     [key: number]: number;
   };
   const rightFrequencies = entries
-    .map((entry) => entry.right)
-    .filter((item) => leftItems.has(item))
+    .map(({ right }) => right)
+    .filter((number) => leftItems.has(number))
     .reduce((acc, number) => {
+      console.log(acc, number);
       acc[number] = (acc[number] ?? 0) + 1;
+      console.log(acc, number);
       return acc;
     }, {} as FrequencyMap);
 
-  return Object.entries(rightFrequencies).reduce((acc, [number, frequency]) => {
-    const weightedOccurrence = parseInt(number) * frequency;
+  return entries.reduce((acc, { left: number }) => {
+    const weightedOccurrence = number * (rightFrequencies[number] ?? 0);
     return acc + weightedOccurrence;
   }, 0);
 };
 
-const main = async (inputFile: string = "input.txt") => {
+const main = async (inputFile: string = "src/day01/input.txt") => {
   const entries = await readInput(inputFile);
   const sortedEntries = sortListEntries(entries);
   console.log("Entries:", sortedEntries);
