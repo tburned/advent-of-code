@@ -7,7 +7,9 @@ type ListEntry = {
   right: number;
 };
 
-const readInput: () => Promise<ListEntry[]> = async () => {
+const readInput: (inputFile: string) => Promise<ListEntry[]> = async (
+  inputFile
+) => {
   const fileStream = fs.createReadStream("src/day01/input.txt");
 
   const lines = readline.createInterface({
@@ -78,8 +80,8 @@ const calculateSimilarityScore = (entries: ListEntry[]) => {
   }, 0);
 };
 
-const main = async () => {
-  const entries = await readInput();
+const main = async (inputFile: string = "input.txt") => {
+  const entries = await readInput(inputFile);
   const sortedEntries = sortListEntries(entries);
   console.log("Entries:", sortedEntries);
 
