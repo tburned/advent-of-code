@@ -1,6 +1,7 @@
 import fs from "fs";
 import readline from "readline";
 import { MaxHeap, MinHeap } from "@datastructures-js/heap";
+import { readFileEagerly } from "../utils";
 
 type ListEntry = {
   left: number;
@@ -10,16 +11,11 @@ type ListEntry = {
 export const readInput: (inputFile: string) => Promise<ListEntry[]> = async (
   inputFile
 ) => {
-  const fileStream = fs.createReadStream(inputFile);
-
-  const lines = readline.createInterface({
-    input: fileStream,
-    crlfDelay: Infinity,
-  });
+  const lines = await readFileEagerly(inputFile);
 
   const left = new MaxHeap<number>();
   const right = new MaxHeap<number>();
-  for await (const line of lines) {
+  for (const line of lines) {
     const items = line.split(/\s+/); // should always be a pair
     left.push(parseInt(items[0]));
     right.push(parseInt(items[1]));
