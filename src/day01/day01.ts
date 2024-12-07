@@ -59,7 +59,6 @@ export const calculateTotalDistance = (entries: ListEntry[]) => {
 export const calculateSimilarityScore = (entries: ListEntry[]) => {
   const leftItems = new Set(entries.map(({ left }) => left));
 
-  console.log(leftItems);
   type FrequencyMap = {
     [key: number]: number;
   };
@@ -67,9 +66,7 @@ export const calculateSimilarityScore = (entries: ListEntry[]) => {
     .map(({ right }) => right)
     .filter((number) => leftItems.has(number))
     .reduce((acc, number) => {
-      console.log(acc, number);
       acc[number] = (acc[number] ?? 0) + 1;
-      console.log(acc, number);
       return acc;
     }, {} as FrequencyMap);
 
