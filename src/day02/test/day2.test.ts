@@ -1,13 +1,8 @@
 import { expect, test } from "@jest/globals";
 
-import {
-  part1,
-  isReportSafe,
-  isReportSafeWithDampeners,
-  getReports,
-  Report,
-  part2,
-} from "../day2";
+import { part1, getReports, part2 } from "../day2";
+import { Report } from "../types";
+import { isReportSafe, omit1Dampener } from "../reportSafety";
 
 const testFileName = "src/day02/test/testInput.txt";
 
@@ -32,19 +27,19 @@ test("it calls not safe reports not safe", () => {
 });
 
 test("it calls dampener-safe reports safe", () => {
-  expect(isReportSafeWithDampeners(safeReport)).toEqual(true);
+  expect(isReportSafe(safeReport, omit1Dampener)).toEqual(true);
 
-  expect(isReportSafeWithDampeners([1, 3, 2, 4, 5])).toEqual(true);
+  expect(isReportSafe([1, 3, 2, 4, 5], omit1Dampener)).toEqual(true);
 
-  expect(isReportSafeWithDampeners([8, 6, 4, 4, 1])).toEqual(true);
+  expect(isReportSafe([8, 6, 4, 4, 1], omit1Dampener)).toEqual(true);
 
-  expect(isReportSafeWithDampeners([10, 12, 9, 7, 6])).toEqual(true);
+  expect(isReportSafe([10, 12, 9, 7, 6], omit1Dampener)).toEqual(true);
 });
 
 test("it calls not dampener-safe reports unsafe", () => {
-  expect(isReportSafeWithDampeners([1, 2, 7, 8, 9])).toEqual(false);
+  expect(isReportSafe([1, 2, 7, 8, 9], omit1Dampener)).toEqual(false);
 
-  expect(isReportSafeWithDampeners([9, 7, 6, 2, 1])).toEqual(false);
+  expect(isReportSafe([9, 7, 6, 2, 1], omit1Dampener)).toEqual(false);
 });
 
 test("Day 2: Part 1", async () => {
