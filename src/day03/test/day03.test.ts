@@ -1,5 +1,12 @@
 import { expect, test } from "@jest/globals";
-import { getOperations, part1, readFileAsOneLine } from "..";
+import {
+  aggregateOperationsRespectingEnableDisable,
+  getOperations,
+  Operation,
+  part1,
+  part2,
+  readFileAsOneLine,
+} from "..";
 import { readFileEagerly } from "../../utils";
 
 test("itParsesSimpleOperations", () => {
@@ -21,7 +28,7 @@ test("itParsesOperandsOver10", () => {
 });
 
 test("itParsesOperationsWhenNearCorruption", async () => {
-  const input = (await readFileEagerly("src/day03/test/input.txt"))[0];
+  const input = (await readFileEagerly("src/day03/test/part1.txt"))[0];
   expect(
     getOperations(input).filter((operation) => "leftOperand" in operation)
   ).toEqual([
@@ -32,7 +39,40 @@ test("itParsesOperationsWhenNearCorruption", async () => {
   ]);
 });
 
-test("itGetsTheCorrectRealAnswer", async () => {
+test("itParsesDosAndDonts", () => {
+  const input = "mul(2,3)don't()mul(4,5)do()mul(1,2)";
+  const operations = getOperations(input);
+  expect(operations).toEqual([
+    { leftOperand: 2, rightOperand: 3 },
+    { enable: false },
+    { leftOperand: 4, rightOperand: 5 },
+    { enable: true },
+    { leftOperand: 1, rightOperand: 2 },
+  ]);
+});
+
+test("itRespectsEnableDisable", () => {
+  const operations: Operation[] = [
+    { leftOperand: 2, rightOperand: 3 },
+    { enable: false },
+    { leftOperand: 4, rightOperand: 5 },
+    { enable: true },
+    { leftOperand: 1, rightOperand: 2 },
+  ];
+  expect(aggregateOperationsRespectingEnableDisable(operations).sum).toEqual(8);
+});
+
+test("itGetsTheRightAnswerForPart2Test", async () => {
+  const input = () => readFileAsOneLine("src/day03/test/part2.txt");
+  expect(await part2(input)).toEqual(48);
+});
+
+test("itGetsTheCorrectRealAnswerPart1", async () => {
   const input = () => readFileAsOneLine("src/day03/input.txt");
   expect(await part1(input)).toBe(181345830);
+});
+
+test("itGetsCorrectAnswerPart2", async () => {
+  const input = () => readFileAsOneLine("src/day03/input.txt");
+  expect(await part2(input)).toBe(98729041);
 });

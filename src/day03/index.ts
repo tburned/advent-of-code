@@ -53,16 +53,42 @@ export const aggregateOperationsIgnoringEnableDisable = (
     }, 0);
 };
 
+export const aggregateOperationsRespectingEnableDisable = (
+  operations: Operation[]
+) => {
+  return operations.reduce(
+    ({ sum, enabled }, operation) => {
+      if ("enable" in operation) {
+        return { sum, enabled: operation.enable };
+      }
+
+      const { leftOperand, rightOperand } = operation;
+      const product = leftOperand * rightOperand * (enabled ? 1 : 0);
+      return { sum: sum + product, enabled };
+    },
+    { sum: 0, enabled: true }
+  );
+};
+
 export const part1 = async (input: () => Promise<string>) => {
   const operations = getOperations(await input());
   const result = aggregateOperationsIgnoringEnableDisable(operations);
   return result;
 };
 
+export const part2 = async (input: () => Promise<string>) => {
+  const operations = getOperations(await input());
+  const result = aggregateOperationsRespectingEnableDisable(operations);
+  return result.sum;
+};
+
 const day3 = async (inputFile: string = "src/day03/input.txt") => {
   const input = memoize(() => readFileAsOneLine(inputFile));
   const part1Sum: number = await part1(input);
-  console.log("Accumulated Operations: %s", part1Sum);
+  console.log("Accumulated Operations 1: %s", part1Sum);
+
+  const part2Sum: number = await part2(input);
+  console.log("Accumulated Operations 2: %s", part2Sum);
 };
 
 export default day3;
