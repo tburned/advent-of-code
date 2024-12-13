@@ -3,6 +3,7 @@ import { jack } from "jackspeak";
 import Day1 from "./day01/day01";
 import Day2 from "./day02/day2";
 import Day3 from "./day03";
+import Day4 from "./day04";
 
 type AoCFunctionMap = {
   [year: number]: {
@@ -15,6 +16,7 @@ const solutions: AoCFunctionMap = {
     1: Day1,
     2: Day2,
     3: Day3,
+    4: Day4,
   },
 };
 
