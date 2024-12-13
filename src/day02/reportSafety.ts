@@ -50,7 +50,7 @@ export const isReportSafe = (
   reportDampener?: ReportDampener
 ): boolean => {
   // TODO: Figure out a more interesting way to solve this problem that's not O(n*m)
-  if (isReportSafe(report)) {
+  if (_isReportSafe(report)) {
     return true;
   }
 
@@ -59,7 +59,7 @@ export const isReportSafe = (
   }
 
   return reportDampener(report).reduce(
-    (acc, dampenedReport) => acc || isReportSafe(dampenedReport),
+    (acc, dampenedReport) => acc || _isReportSafe(dampenedReport),
     false
   );
 };
