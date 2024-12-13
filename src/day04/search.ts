@@ -82,6 +82,38 @@ const searchInDirection = (
   return searchInDirection(grid, chars.slice(1), newCoordinates, direction);
 };
 
+const searchInDirectionStartingAt = (
+  grid: string[][],
+  chars: string,
+  currentCoordinates: Coordinates,
+  direction: Direction
+) => {
+  // shouldn't happen, but just in case
+  if (chars.length === 0) {
+    return true;
+  }
+
+  const { row, column } = currentCoordinates;
+  if (!chars.startsWith(grid[row][column])) {
+    return false;
+  }
+
+  if (chars.length === 1) {
+    return true;
+  }
+
+  if (!canGo(grid, currentCoordinates, direction)) {
+    return false;
+  }
+
+  return searchInDirectionStartingAt(
+    grid,
+    chars.slice(1),
+    transforms[direction](currentCoordinates),
+    direction
+  );
+};
+
 const getNextCoordinates = (
   grid: string[][],
   { row, column }: Coordinates
@@ -129,6 +161,74 @@ export const searchInAllDirectionsFrom = (
       )
     )
     .reduce((acc, found) => acc + (found ? 1 : 0), 0);
+};
+
+export const searchForX = (
+  grid: string[][],
+  origin: Coordinates = { row: 0, column: 0 }
+) => {
+  let nextCoordinates = getNextCoordinates(grid, origin);
+  if (!nextCoordinates) {
+    return 0;
+  }
+
+  let count = 0;
+  let coordinates: Coordinates | undefined = origin;
+  do {
+    count += isXMas(grid, coordinates) ? 1 : 0;
+    coordinates = getNextCoordinates(grid, coordinates);
+  } while (coordinates);
+
+  return count;
+};
+
+export const isXMas = (
+  grid: string[][],
+  coordinates: Coordinates = { row: 0, column: 0 }
+) => {
+  const { row, column } = coordinates;
+  if (
+    row === 0 ||
+    row >= grid.length - 1 ||
+    column === 0 ||
+    column >= grid[row].length - 1
+  ) {
+    return false;
+  }
+
+  if (grid[row][column] !== "A") {
+    return false;
+  }
+
+  const word = "MAS";
+  const reversed = "SAM";
+
+  return (
+    (searchInDirectionStartingAt(
+      grid,
+      word,
+      transforms.NW(coordinates),
+      "SE"
+    ) ||
+      searchInDirectionStartingAt(
+        grid,
+        reversed,
+        transforms.NW(coordinates),
+        "SE"
+      )) &&
+    (searchInDirectionStartingAt(
+      grid,
+      word,
+      transforms.NE(coordinates),
+      "SW"
+    ) ||
+      searchInDirectionStartingAt(
+        grid,
+        reversed,
+        transforms.NE(coordinates),
+        "SW"
+      ))
+  );
 };
 
 export const search = (

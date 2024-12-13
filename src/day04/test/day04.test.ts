@@ -1,6 +1,6 @@
 import { expect, test } from "@jest/globals";
 import { readFileEagerly } from "../../utils";
-import { part1 } from "..";
+import { part1, part2 } from "..";
 import { search } from "../search";
 
 test("itGetsTheExampleRight", async () => {
@@ -13,6 +13,12 @@ test("itGetsTheModifiedExampleRight", async () => {
   const getInput = async () =>
     await readFileEagerly("src/day04/test/part1-modified.txt");
   expect(await part1(getInput, "XMAS")).toBe(19);
+});
+
+test("itGetsTheExampleRightPart2", async () => {
+  const getInput = async () =>
+    await readFileEagerly("src/day04/test/part1.txt");
+  expect(await part2(getInput)).toBe(9);
 });
 
 test("itSearchesCorrectlyInEveryDirection", () => {
