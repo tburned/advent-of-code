@@ -1,6 +1,4 @@
-import { get } from "http";
-
-type Coordinates = {
+export type Coordinates = {
   row: number;
   column: number;
 };
@@ -148,11 +146,11 @@ export const search = (
   }
 
   let count = 0;
+  let coordinates: Coordinates | undefined = origin;
   do {
-    console.log(nextCoordinates);
-    count += searchInAllDirectionsFrom(grid, word, nextCoordinates);
-    nextCoordinates = getNextCoordinates(grid, nextCoordinates);
-  } while (nextCoordinates != null);
+    count += searchInAllDirectionsFrom(grid, word, coordinates);
+    coordinates = getNextCoordinates(grid, coordinates);
+  } while (coordinates);
 
   return count;
 };

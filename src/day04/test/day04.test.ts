@@ -28,3 +28,8 @@ test("itSearchesCorrectlyInEveryDirection", () => {
   grid[2][2] = "b";
   expect(search(grid, word)).toBe(8);
 });
+
+test("itGetsPart1Right", async () => {
+  const getInput = async () => await readFileEagerly("src/day04/input.txt");
+  expect(await part1(getInput, "XMAS")).toBe(2560);
+});
