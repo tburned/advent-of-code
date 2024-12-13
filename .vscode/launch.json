@@ -11,6 +11,15 @@
       "windows": {
         "program": "${workspaceFolder}/node_modules/jest/bin/jest"
       }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run debug",
+      "cwd": "${workspaceRoot}",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["start", "--", "--year", "2024", "--day", "4"],
+      "console": "integratedTerminal"
     }
   ]
 }

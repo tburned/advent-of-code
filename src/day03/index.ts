@@ -1,4 +1,3 @@
-import { doesNotThrow } from "assert";
 import { memoize, readFileEagerly } from "../utils";
 
 export type Operation = Mul | Enable;
