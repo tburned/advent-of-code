@@ -1,5 +1,5 @@
 import { expect, test } from "@jest/globals";
-import { getOperations } from "..";
+import { getOperations, part1, readFileAsOneLine } from "..";
 import { readFileEagerly } from "../../utils";
 
 test("itParsesSimpleOperations", () => {
@@ -22,10 +22,17 @@ test("itParsesOperandsOver10", () => {
 
 test("itParsesOperationsWhenNearCorruption", async () => {
   const input = (await readFileEagerly("src/day03/test/input.txt"))[0];
-  expect(getOperations(input)).toEqual([
+  expect(
+    getOperations(input).filter((operation) => "leftOperand" in operation)
+  ).toEqual([
     { leftOperand: 2, rightOperand: 4 },
     { leftOperand: 5, rightOperand: 5 },
     { leftOperand: 11, rightOperand: 8 },
     { leftOperand: 8, rightOperand: 5 },
   ]);
+});
+
+test("itGetsTheCorrectRealAnswer", async () => {
+  const input = () => readFileAsOneLine("src/day03/input.txt");
+  expect(await part1(input)).toBe(181345830);
 });
